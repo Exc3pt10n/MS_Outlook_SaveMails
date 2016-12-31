@@ -28,10 +28,10 @@ Partial Class frmMain
         Me.ProgrammToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EinstellungenÄndernToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BeendenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ÜberToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.prgBar = New System.Windows.Forms.ProgressBar()
         Me.lblAnzahlMails = New System.Windows.Forms.Label()
         Me.TimerCheckSelection = New System.Windows.Forms.Timer(Me.components)
-        Me.ÜberToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -65,14 +65,20 @@ Partial Class frmMain
         'EinstellungenÄndernToolStripMenuItem
         '
         Me.EinstellungenÄndernToolStripMenuItem.Name = "EinstellungenÄndernToolStripMenuItem"
-        Me.EinstellungenÄndernToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
-        Me.EinstellungenÄndernToolStripMenuItem.Text = "Einstellungen ändern"
+        Me.EinstellungenÄndernToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EinstellungenÄndernToolStripMenuItem.Text = "Einstellungen"
         '
         'BeendenToolStripMenuItem
         '
         Me.BeendenToolStripMenuItem.Name = "BeendenToolStripMenuItem"
-        Me.BeendenToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
+        Me.BeendenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.BeendenToolStripMenuItem.Text = "Beenden"
+        '
+        'ÜberToolStripMenuItem
+        '
+        Me.ÜberToolStripMenuItem.Name = "ÜberToolStripMenuItem"
+        Me.ÜberToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.ÜberToolStripMenuItem.Text = "Über"
         '
         'prgBar
         '
@@ -95,12 +101,6 @@ Partial Class frmMain
         'TimerCheckSelection
         '
         Me.TimerCheckSelection.Interval = 500
-        '
-        'ÜberToolStripMenuItem
-        '
-        Me.ÜberToolStripMenuItem.Name = "ÜberToolStripMenuItem"
-        Me.ÜberToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
-        Me.ÜberToolStripMenuItem.Text = "Über"
         '
         'frmMain
         '
