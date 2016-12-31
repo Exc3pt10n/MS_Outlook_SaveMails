@@ -1,7 +1,6 @@
 ﻿Public Class frmMain
     Private Delegate Sub dele_set_prgBar_max(ByVal max As Long)
     Private Delegate Sub dele_update_prgBar(ByVal value As Long)
-    Private Delegate Sub dele_update_MailCountLabel(ByVal text As String)
 
     Private Sub set_prgBar_max(ByVal max As Long)
         prgBar.Maximum = CType(max, Integer)
@@ -9,10 +8,6 @@
 
     Private Sub update_prgBar(ByVal value As Long)
         prgBar.Value = CType(value, Integer)
-    End Sub
-
-    Private Sub update_MailCountLabel(ByVal text As String)
-        lblAnzahlMails.Text = text
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -30,7 +25,7 @@
     End Sub
 
     Private Sub cmdSaveSelectedItems_Click(sender As Object, e As EventArgs) Handles cmdSaveSelectedItems.Click
-        Dim thrAddItems As New Threading.Thread(AddressOf save_selected_mails_from_outlook)
+        Dim thrSaveMails As New Threading.Thread(AddressOf save_selected_mails_from_outlook)
         Dim fbd As New FolderBrowserDialog
         Dim strPfad As String
 
@@ -49,7 +44,7 @@
             strPfad = My.Settings.SaveRootPath.ToString()
         End If
 
-        thrAddItems.Start(strPfad)
+        thrSaveMails.Start(strPfad)
     End Sub
 
     Private Sub save_selected_mails_from_outlook(ByVal args As Object)
@@ -113,7 +108,6 @@
 
     Private Function isOutlookRunning() As Boolean
         Dim p() As Process = Process.GetProcessesByName("Outlook")
-
         If p.Count = 0 Then Return False Else Return True
     End Function
 
@@ -145,12 +139,12 @@
         s.Show()
     End Sub
 
-    Private Sub TimerCheckSelection_Tick(sender As Object, e As EventArgs) Handles TimerCheckSelection.Tick
-        Dim thrTimer As New Threading.Thread(AddressOf check_for_Selection_Count)
-        thrTimer.Start()
+    Private Sub ÜberToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ÜberToolStripMenuItem.Click
+        Dim frm As New AboutBox
+        frm.Show()
     End Sub
 
-    Private Sub check_for_Selection_Count()
+    Private Sub TimerCheckSelection_Tick(sender As Object, e As EventArgs) Handles TimerCheckSelection.Tick
         Dim p() As Process = Process.GetProcessesByName("Outlook")
 
         If p.Count = 0 Then
@@ -171,14 +165,9 @@
                 strAusgabe = strAusgabe & " Mails markiert"
             End If
 
-            Me.Invoke(New dele_update_MailCountLabel(AddressOf update_MailCountLabel), strAusgabe)
+            lblAnzahlMails.Text = strAusgabe
         Catch ex As Exception
             Application.Exit()
         End Try
-    End Sub
-
-    Private Sub ÜberToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ÜberToolStripMenuItem.Click
-        Dim frm As New AboutBox
-        frm.Show()
     End Sub
 End Class

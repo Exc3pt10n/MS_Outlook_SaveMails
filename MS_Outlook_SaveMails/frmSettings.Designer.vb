@@ -182,7 +182,9 @@ Partial Class frmSettings
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.cmdChangeStartPath)
         Me.Controls.Add(Me.GroupBox1)
+        Me.MaximizeBox = False
         Me.Name = "frmSettings"
+        Me.ShowIcon = False
         Me.Text = "Einstellungen"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()

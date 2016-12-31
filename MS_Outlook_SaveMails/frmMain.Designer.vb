@@ -113,7 +113,9 @@ Partial Class frmMain
         Me.Controls.Add(Me.MenuStrip1)
         Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
         Me.MainMenuStrip = Me.MenuStrip1
+        Me.MaximizeBox = False
         Me.Name = "frmMain"
+        Me.ShowIcon = False
         Me.Text = "MS_Outlook_SaveMails"
         Me.UseWaitCursor = True
         Me.MenuStrip1.ResumeLayout(False)
