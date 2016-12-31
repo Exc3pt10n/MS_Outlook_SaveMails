@@ -31,6 +31,7 @@ Partial Class frmMain
         Me.prgBar = New System.Windows.Forms.ProgressBar()
         Me.lblAnzahlMails = New System.Windows.Forms.Label()
         Me.TimerCheckSelection = New System.Windows.Forms.Timer(Me.components)
+        Me.ÜberToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -46,7 +47,7 @@ Partial Class frmMain
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgrammToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgrammToolStripMenuItem, Me.ÜberToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(411, 24)
@@ -95,6 +96,12 @@ Partial Class frmMain
         '
         Me.TimerCheckSelection.Interval = 500
         '
+        'ÜberToolStripMenuItem
+        '
+        Me.ÜberToolStripMenuItem.Name = "ÜberToolStripMenuItem"
+        Me.ÜberToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.ÜberToolStripMenuItem.Text = "Über"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -123,4 +130,5 @@ Partial Class frmMain
     Friend WithEvents prgBar As ProgressBar
     Friend WithEvents lblAnzahlMails As Label
     Friend WithEvents TimerCheckSelection As Timer
+    Friend WithEvents ÜberToolStripMenuItem As ToolStripMenuItem
 End Class

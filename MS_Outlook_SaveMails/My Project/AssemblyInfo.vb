@@ -9,8 +9,8 @@ Imports System.Runtime.InteropServices
 ' Werte der Assemblyattribute überprüfen
 
 <Assembly: AssemblyTitle("MS_Outlook_SaveMails")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyDescription("Ein kleines Tool um schnell und einfach Outlook Mails abzuspeichern. Besuchen Sie mich unter https://jansesoft.de")>
+<Assembly: AssemblyCompany("JanSeSoft")>
 <Assembly: AssemblyProduct("MS_Outlook_SaveMails")>
 <Assembly: AssemblyCopyright("Copyright ©  2016")>
 <Assembly: AssemblyTrademark("")>

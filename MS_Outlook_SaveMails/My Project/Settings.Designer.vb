@@ -89,6 +89,30 @@ Namespace My
                 Me("MaxLenSubject") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property UseBrowser() As Boolean
+            Get
+                Return CType(Me("UseBrowser"),Boolean)
+            End Get
+            Set
+                Me("UseBrowser") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("RE:\s|Re:\s|AW:\s|FW:\s|WG:\s|SV:\s|Antwort:\s")>  _
+        Public Property MailCleanRegex() As String
+            Get
+                Return CType(Me("MailCleanRegex"),String)
+            End Get
+            Set
+                Me("MailCleanRegex") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

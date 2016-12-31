@@ -16,9 +16,7 @@
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim p() As Process = Process.GetProcessesByName("Outlook")
-
-        If p.Count = 0 Then
+        If Not isOutlookRunning() Then
             MsgBox("Outlook läuft nicht, starten der Anwendung nicht möglich.", CType(MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, MsgBoxStyle), "Outlook nicht gestartet")
             Application.Exit()
         End If
@@ -36,16 +34,20 @@
         Dim fbd As New FolderBrowserDialog
         Dim strPfad As String
 
-        With fbd
-            .RootFolder = Environment.SpecialFolder.MyComputer
-            .SelectedPath = My.Settings.SaveRootPath.ToString()
-            .Description = "Bitte wählen Sie einen Pfad"
-            If fbd.ShowDialog = Windows.Forms.DialogResult.OK Then
-                strPfad = .SelectedPath.ToString()
-            Else
-                Exit Sub
-            End If
-        End With
+        If My.Settings.UseBrowser Then
+            With fbd
+                .RootFolder = Environment.SpecialFolder.MyComputer
+                .SelectedPath = My.Settings.SaveRootPath.ToString()
+                .Description = "Bitte wählen Sie einen Pfad"
+                If fbd.ShowDialog = Windows.Forms.DialogResult.OK Then
+                    strPfad = .SelectedPath.ToString()
+                Else
+                    Exit Sub
+                End If
+            End With
+        Else
+            strPfad = My.Settings.SaveRootPath.ToString()
+        End If
 
         thrAddItems.Start(strPfad)
     End Sub
@@ -66,6 +68,9 @@
             Me.Invoke(New dele_set_prgBar_max(AddressOf set_prgBar_max), outExplorer.Selection.Count)
         End If
 
+        Dim regex As New VBScript_RegExp_55.RegExp
+        regex.Pattern = My.Settings.MailCleanRegex
+
         For Each outMail In outExplorer.Selection
             If Not outMail.MessageClass.ToString() = "IPM.Note" Then
                 Continue For
@@ -75,6 +80,10 @@
                 strSubject = "(leer)"
             Else
                 strSubject = Strings.Left(outMail.Subject.ToString(), My.Settings.MaxLenSubject)
+            End If
+
+            If regex.Test(strSubject) Then
+                Continue For
             End If
 
             strFinalPath = String.Format("{0}\{1}_{2}_{3}.MSG", CType(args, String), ReplaceCharsForFileName(FormatDateTime(outMail.ReceivedTime, DateFormat.GeneralDate)), ReplaceCharsForFileName(Strings.Left(outMail.SenderName.ToString(), My.Settings.MaxLenSenderName)), ReplaceCharsForFileName(strSubject))
@@ -94,6 +103,12 @@
         MsgBox("Es wurden " & l - f & " Nachrichten gespeichert.", MsgBoxStyle.Information, "Vorgang abgeschlossen")
         Me.Invoke(New dele_update_prgBar(AddressOf update_prgBar), 0)
     End Sub
+
+    Private Function isOutlookRunning() As Boolean
+        Dim p() As Process = Process.GetProcessesByName("Outlook")
+
+        If p.Count = 0 Then Return False Else Return True
+    End Function
 
     Private Function ReplaceCharsForFileName(ByVal strPath As String) As String
         Const c As String = "-"
@@ -153,5 +168,10 @@
         Catch ex As Exception
             Application.Exit()
         End Try
+    End Sub
+
+    Private Sub ÜberToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ÜberToolStripMenuItem.Click
+        Dim frm As New AboutBox
+        frm.Show()
     End Sub
 End Class

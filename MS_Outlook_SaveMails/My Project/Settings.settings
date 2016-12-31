@@ -11,5 +11,11 @@
     <Setting Name="MaxLenSubject" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
+    <Setting Name="UseBrowser" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MailCleanRegex" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RE:\s|Re:\s|AW:\s|FW:\s|WG:\s|SV:\s|Antwort:\s</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
