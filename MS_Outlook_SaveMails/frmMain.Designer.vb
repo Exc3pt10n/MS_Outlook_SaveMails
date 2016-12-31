@@ -65,13 +65,13 @@ Partial Class frmMain
         'EinstellungenÄndernToolStripMenuItem
         '
         Me.EinstellungenÄndernToolStripMenuItem.Name = "EinstellungenÄndernToolStripMenuItem"
-        Me.EinstellungenÄndernToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.EinstellungenÄndernToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
         Me.EinstellungenÄndernToolStripMenuItem.Text = "Einstellungen"
         '
         'BeendenToolStripMenuItem
         '
         Me.BeendenToolStripMenuItem.Name = "BeendenToolStripMenuItem"
-        Me.BeendenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.BeendenToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
         Me.BeendenToolStripMenuItem.Text = "Beenden"
         '
         'ÜberToolStripMenuItem
@@ -114,7 +114,7 @@ Partial Class frmMain
         Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmMain"
-        Me.Text = "SaveOutlookMails"
+        Me.Text = "MS_Outlook_SaveMails"
         Me.UseWaitCursor = True
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
