@@ -36,7 +36,7 @@ Partial Class frmMain
         '
         'cmdSaveSelectedItems
         '
-        Me.cmdSaveSelectedItems.Location = New System.Drawing.Point(12, 28)
+        Me.cmdSaveSelectedItems.Location = New System.Drawing.Point(12, 27)
         Me.cmdSaveSelectedItems.Name = "cmdSaveSelectedItems"
         Me.cmdSaveSelectedItems.Size = New System.Drawing.Size(105, 23)
         Me.cmdSaveSelectedItems.TabIndex = 2
@@ -80,6 +80,7 @@ Partial Class frmMain
         Me.prgBar.Size = New System.Drawing.Size(387, 23)
         Me.prgBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous
         Me.prgBar.TabIndex = 5
+        Me.prgBar.UseWaitCursor = True
         '
         'lblAnzahlMails
         '
@@ -88,6 +89,7 @@ Partial Class frmMain
         Me.lblAnzahlMails.Name = "lblAnzahlMails"
         Me.lblAnzahlMails.Size = New System.Drawing.Size(0, 13)
         Me.lblAnzahlMails.TabIndex = 6
+        Me.lblAnzahlMails.UseWaitCursor = True
         '
         'TimerCheckSelection
         '

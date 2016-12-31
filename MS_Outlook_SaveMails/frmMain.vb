@@ -1,6 +1,7 @@
 ﻿Public Class frmMain
     Private Delegate Sub dele_set_prgBar_max(ByVal max As Long)
     Private Delegate Sub dele_update_prgBar(ByVal value As Long)
+    Private Delegate Sub dele_update_MailCountLabel(ByVal text As String)
 
     Private Sub set_prgBar_max(ByVal max As Long)
         prgBar.Maximum = CType(max, Integer)
@@ -8,6 +9,10 @@
 
     Private Sub update_prgBar(ByVal value As Long)
         prgBar.Value = CType(value, Integer)
+    End Sub
+
+    Private Sub update_MailCountLabel(ByVal text As String)
+        lblAnzahlMails.Text = text
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -69,10 +74,10 @@
             If CType(outMail.Subject, String) = vbNullString Then
                 strSubject = "(leer)"
             Else
-                strSubject = Strings.Left(outMail.Subject.ToString(), 15)
+                strSubject = Strings.Left(outMail.Subject.ToString(), My.Settings.MaxLenSubject)
             End If
 
-            strFinalPath = String.Format("{0}\{1}_{2}_{3}.MSG", CType(args, String), ReplaceCharsForFileName(FormatDateTime(outMail.ReceivedTime, DateFormat.GeneralDate)), ReplaceCharsForFileName(Strings.Left(outMail.SenderName.ToString(), 15)), ReplaceCharsForFileName(strSubject))
+            strFinalPath = String.Format("{0}\{1}_{2}_{3}.MSG", CType(args, String), ReplaceCharsForFileName(FormatDateTime(outMail.ReceivedTime, DateFormat.GeneralDate)), ReplaceCharsForFileName(Strings.Left(outMail.SenderName.ToString(), My.Settings.MaxLenSenderName)), ReplaceCharsForFileName(strSubject))
 
             Try
                 outMail.SaveAs(strFinalPath, Microsoft.Office.Interop.Outlook.OlSaveAsType.olMSG)
@@ -119,6 +124,11 @@
     End Sub
 
     Private Sub TimerCheckSelection_Tick(sender As Object, e As EventArgs) Handles TimerCheckSelection.Tick
+        Dim thrTimer As New Threading.Thread(AddressOf check_for_Selection_Count)
+        thrTimer.Start()
+    End Sub
+
+    Private Sub check_for_Selection_Count()
         Dim p() As Process = Process.GetProcessesByName("Outlook")
 
         If p.Count = 0 Then
@@ -128,13 +138,18 @@
         Try
             Dim appOut As New Microsoft.Office.Interop.Outlook.Application
             Dim outExplorer As Microsoft.Office.Interop.Outlook.Explorer
+            Dim strAusgabe As String
             outExplorer = appOut.ActiveExplorer
 
+            strAusgabe = outExplorer.Selection.Count.ToString()
+
             If outExplorer.Selection.Count = 1 Then
-                lblAnzahlMails.Text = outExplorer.Selection.Count.ToString() & " Mail markiert"
+                strAusgabe = strAusgabe & " Mail markiert"
             Else
-                lblAnzahlMails.Text = outExplorer.Selection.Count.ToString() & " Mails markiert"
+                strAusgabe = strAusgabe & " Mails markiert"
             End If
+
+            Me.Invoke(New dele_update_MailCountLabel(AddressOf update_MailCountLabel), strAusgabe)
         Catch ex As Exception
             Application.Exit()
         End Try
