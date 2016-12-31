@@ -41,8 +41,8 @@
             CType(txtLenSubject.Text.ToString(), Integer) < 0 Or
             txtRegExPattern.Text.ToString() = vbNullString Then
             MsgBox("Das Speichern der Einstellungen ist nicht möglich, da " & vbCrLf &
-                   "-Einer der Maximalwerte < 0 ist" & vbCrLf &
-                   "-Das RegEx-Pattern leer ist", MsgBoxStyle.Critical)
+                   "-einer der Maximalwerte < 0 ist" & vbCrLf &
+                   "-das RegEx-Pattern leer ist", MsgBoxStyle.Critical)
             Exit Sub
         End If
 

@@ -16,7 +16,7 @@
             Application.Exit()
         End If
 
-        If My.Settings.SaveRootPath = vbNullString Then
+        If My.Settings.SaveRootPath = vbNullString Or Not My.Computer.FileSystem.DirectoryExists(My.Settings.SaveRootPath.ToString()) Then
             My.Settings.SaveRootPath = My.Computer.FileSystem.SpecialDirectories.Desktop.ToString()
             My.Settings.Save()
         End If
@@ -96,7 +96,7 @@
                 f = f + 1
                 MsgBox("Es ist leider ein Fehler beim Speichern aufgetreten." & vbCrLf & vbCrLf &
                        "Fehlercode: " & ex.HResult & vbCrLf &
-                       "Fehlbertext: " & ex.Message, CType(MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, MsgBoxStyle), "Fehler beim Speichern")
+                       "Fehlertext: " & ex.Message, CType(MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, MsgBoxStyle), "Fehler beim Speichern")
             End Try
             l = l + 1
             Me.Invoke(New dele_update_prgBar(AddressOf update_prgBar), l)
