@@ -65,6 +65,13 @@
             MsgBox("Keine Mails in Outlook ausgewählt.", CType(MsgBoxStyle.Information + MsgBoxStyle.OkOnly, MsgBoxStyle))
             Exit Sub
         Else
+            Try
+                outMail = CType(outExplorer.Selection(1), Microsoft.Office.Interop.Outlook.MailItem)
+            Catch ex As Exception
+                MsgBox("Speichern nicht möglich, keine Mail gewählt.", MsgBoxStyle.Critical, "Speichern nicht möglich")
+                Exit Sub
+            End Try
+
             Me.Invoke(New dele_set_prgBar_max(AddressOf set_prgBar_max), outExplorer.Selection.Count)
         End If
 
