@@ -1,8 +1,8 @@
 ﻿Public Class frmSettings
     Private Sub frmSettings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         With My.Settings
+            txtFileName.Text = .FileName.ToString()
             lblSaveRootPath.Text = .SaveRootPath.ToString()
-            txtLenSenderName.Text = .MaxLenSenderName.ToString()
             txtLenSubject.Text = .MaxLenSubject.ToString()
             txtRegExPattern.Text = .MailCleanRegex.ToString()
             chbUseBrowser.Checked = .UseBrowser
@@ -27,9 +27,9 @@
     Private Sub cmdSave_Click(sender As Object, e As EventArgs) Handles cmdSave.Click
         Try
             With My.Settings
-                .MaxLenSenderName = CType(txtLenSenderName.Text.ToString(), Integer)
                 .MaxLenSubject = CType(txtLenSubject.Text.ToString(), Integer)
                 .MailCleanRegex = txtRegExPattern.Text.ToString()
+                .FileName = txtFileName.Text.ToString()
                 .UseBrowser = chbUseBrowser.Checked
             End With
         Catch ex As Exception
@@ -37,12 +37,13 @@
             Exit Sub
         End Try
 
-        If CType(txtLenSenderName.Text.ToString(), Integer) < 0 Or
-            CType(txtLenSubject.Text.ToString(), Integer) < 0 Or
-            txtRegExPattern.Text.ToString() = vbNullString Then
+        If CType(txtLenSubject.Text.ToString(), Integer) < 0 Or
+            txtRegExPattern.Text.ToString() = vbNullString Or
+            txtFileName.Text.ToString() = vbNullString Then
             MsgBox("Das Speichern der Einstellungen ist nicht möglich, da " & vbCrLf &
-                   "-einer der Maximalwerte < 0 ist" & vbCrLf &
-                   "-das RegEx-Pattern leer ist", MsgBoxStyle.Critical)
+                   "-der Maximalwert für den Betreff < 0 ist" & vbCrLf &
+                   "-das RegEx-Pattern leer ist" & vbCrLf &
+                   "-der Dateiname leer ist", MsgBoxStyle.Critical)
             Exit Sub
         End If
 

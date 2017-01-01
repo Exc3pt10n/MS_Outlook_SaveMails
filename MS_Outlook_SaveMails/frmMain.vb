@@ -81,14 +81,14 @@
             If CType(outMail.Subject, String) = vbNullString Then
                 strSubject = "(leer)"
             Else
-                strSubject = Strings.Left(outMail.Subject.ToString(), My.Settings.MaxLenSubject)
+                strSubject = outMail.Subject.ToString()
             End If
 
             If regex.Test(strSubject) Then
                 Continue For
             End If
 
-            strFinalPath = String.Format("{0}\{1}_{2}_{3}.MSG", CType(args, String), ReplaceCharsForFileName(FormatDateTime(outMail.ReceivedTime, DateFormat.GeneralDate)), ReplaceCharsForFileName(Strings.Left(outMail.SenderName.ToString(), My.Settings.MaxLenSenderName)), ReplaceCharsForFileName(strSubject))
+            strFinalPath = String.Format("{0}\{1}.MSG", CType(args, String), replace_placeholder_filename(outMail, Strings.Left(strSubject, My.Settings.MaxLenSubject)))
 
             Try
                 outMail.SaveAs(strFinalPath, Microsoft.Office.Interop.Outlook.OlSaveAsType.olMSG)
@@ -106,16 +106,33 @@
         Me.Invoke(New dele_update_prgBar(AddressOf update_prgBar), 0)
     End Sub
 
+    Private Function replace_placeholder_filename(ByVal MailItem As Microsoft.Office.Interop.Outlook.MailItem, ByVal Subject As String) As String
+        Dim strName As String, strDatePattern As String
+        strName = My.Settings.FileName.ToString()
+        strDatePattern = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern & " " & System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern
+
+        strName = Strings.Replace(strName, "<Categories>", CType(If(MailItem.Categories Is Nothing, "(leer)", MailItem.Categories.ToString()), String))
+        strName = Strings.Replace(strName, "<ReceivedByName>", CType(If(MailItem.ReceivedByName Is Nothing, "(leer)", MailItem.ReceivedByName.ToString()), String))
+        strName = Strings.Replace(strName, "<ReceivedTime>", If(MailItem.ReceivedTime = DateTime.MinValue, "(leer)", Format(MailItem.ReceivedTime, strDatePattern)))
+        strName = Strings.Replace(strName, "<SenderEmailAddress>", CType(If(MailItem.SenderEmailAddress Is Nothing, "(leer)", MailItem.SenderEmailAddress.ToString()), String))
+        strName = Strings.Replace(strName, "<SenderName>", CType(If(MailItem.SenderName Is Nothing, "(leer)", MailItem.SenderName.ToString()), String))
+        strName = Strings.Replace(strName, "<SentOn>", If(MailItem.SentOn = DateTime.MinValue, "(leer)", Format(MailItem.SentOn, strDatePattern)))
+        strName = Strings.Replace(strName, "<Subject>", Subject)
+        strName = ReplaceCharsForFileName(strName)
+
+        Return strName
+    End Function
+
     Private Function isOutlookRunning() As Boolean
         Dim p() As Process = Process.GetProcessesByName("Outlook")
         If p.Count = 0 Then Return False Else Return True
     End Function
 
     Private Function ReplaceCharsForFileName(ByVal strPath As String) As String
-        Const c As String = "-"
+        Const c As String = vbNullString
 
         strPath = Strings.Trim(strPath)
-        strPath = Strings.Replace(strPath, " ", "_")
+        strPath = Strings.Replace(strPath, """", c)
         strPath = Strings.Replace(strPath, "'", c)
         strPath = Strings.Replace(strPath, "*", c)
         strPath = Strings.Replace(strPath, "/", c)

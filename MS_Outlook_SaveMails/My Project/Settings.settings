@@ -5,9 +5,6 @@
     <Setting Name="SaveRootPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="MaxLenSenderName" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">20</Value>
-    </Setting>
     <Setting Name="MaxLenSubject" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
@@ -16,6 +13,9 @@
     </Setting>
     <Setting Name="MailCleanRegex" Type="System.String" Scope="User">
       <Value Profile="(Default)">RE:\s|Re:\s|AW:\s|FW:\s|WG:\s|SV:\s|Antwort:\s</Value>
+    </Setting>
+    <Setting Name="FileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">&lt;ReceivedTime&gt;_&lt;SenderName&gt;_&lt;Subject&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -68,18 +68,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("20")>  _
-        Public Property MaxLenSenderName() As Integer
-            Get
-                Return CType(Me("MaxLenSenderName"),Integer)
-            End Get
-            Set
-                Me("MaxLenSenderName") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("30")>  _
         Public Property MaxLenSubject() As Integer
             Get
@@ -111,6 +99,18 @@ Namespace My
             End Get
             Set
                 Me("MailCleanRegex") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("<ReceivedTime>_<SenderName>_<Subject>")>  _
+        Public Property FileName() As String
+            Get
+                Return CType(Me("FileName"),String)
+            End Get
+            Set
+                Me("FileName") = value
             End Set
         End Property
     End Class
