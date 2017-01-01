@@ -6,6 +6,7 @@
             txtLenSubject.Text = .MaxLenSubject.ToString()
             txtRegExPattern.Text = .MailCleanRegex.ToString()
             chbUseBrowser.Checked = .UseBrowser
+            chbProtokoll.Checked = .Debug
         End With
     End Sub
 
@@ -31,6 +32,7 @@
                 .MailCleanRegex = txtRegExPattern.Text.ToString()
                 .FileName = txtFileName.Text.ToString()
                 .UseBrowser = chbUseBrowser.Checked
+                .Debug = chbProtokoll.Checked
             End With
         Catch ex As Exception
             MsgBox("Es ist ein Fehler beim Speichern der Einstellungen aufgetreten, bitte passen Sie die Werte an.", MsgBoxStyle.Critical)

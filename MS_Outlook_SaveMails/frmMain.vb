@@ -44,6 +44,7 @@
             strPfad = My.Settings.SaveRootPath.ToString()
         End If
 
+        TimerCheckSelection.Stop()
         thrSaveMails.Start(strPfad)
     End Sub
 
@@ -52,7 +53,7 @@
         Dim outExplorer As Microsoft.Office.Interop.Outlook.Explorer
         Dim outMail As Microsoft.Office.Interop.Outlook.MailItem
         Dim strSubject As String, strFinalPath As String
-        Dim l As Long = 0, f As Long = 0
+        Dim l As Long = 0, m As Long = 0
 
         outExplorer = appOut.ActiveExplorer
 
@@ -73,36 +74,58 @@
         Dim regex As New VBScript_RegExp_55.RegExp
         regex.Pattern = My.Settings.MailCleanRegex
 
+        'Debugging!
+        Dim strAusgabe As String
+        strAusgabe = "Ausführung gestartet" & vbCrLf
+
         For Each outMail In outExplorer.Selection
-            If Not outMail.MessageClass.ToString() = "IPM.Note" Then
+            If Not Strings.Left(outMail.MessageClass.ToString(), 8) = "IPM.Note" Then
+                'Debugging!
+                strAusgabe = strAusgabe & "Kein Mailitem: " & outMail.Subject.ToString() & " MessageClass: " & outMail.MessageClass.ToString() & vbCrLf
                 Continue For
             End If
 
-            If CType(outMail.Subject, String) = vbNullString Then
+            If outMail.Subject Is Nothing Then
                 strSubject = "(leer)"
             Else
                 strSubject = outMail.Subject.ToString()
             End If
 
-            If regex.Test(strSubject) Then
-                Continue For
-            End If
+            If Not regex.Test(strSubject) Then
+                strFinalPath = String.Format("{0}\{1}.MSG", CType(args, String), replace_placeholder_filename(outMail, Strings.Left(strSubject, My.Settings.MaxLenSubject)))
 
-            strFinalPath = String.Format("{0}\{1}.MSG", CType(args, String), replace_placeholder_filename(outMail, Strings.Left(strSubject, My.Settings.MaxLenSubject)))
-
-            Try
-                outMail.SaveAs(strFinalPath, Microsoft.Office.Interop.Outlook.OlSaveAsType.olMSG)
-            Catch ex As Exception
-                f = f + 1
-                MsgBox("Es ist leider ein Fehler beim Speichern aufgetreten." & vbCrLf & vbCrLf &
+                Try
+                    'Debugging!
+                    strAusgabe = strAusgabe & strFinalPath & vbCrLf
+                    m = m + 1
+                    outMail.SaveAs(strFinalPath, Microsoft.Office.Interop.Outlook.OlSaveAsType.olMSG)
+                Catch ex As Exception
+                    'Debugging!
+                    strAusgabe = strAusgabe & "Fehler beim Speichern des MailItems. Fehlernachricht: " & ex.Message & vbCrLf
+                    m = m - 1
+                    MsgBox("Es ist leider ein Fehler beim Speichern aufgetreten." & vbCrLf & vbCrLf &
                        "Fehlercode: " & ex.HResult & vbCrLf &
                        "Fehlertext: " & ex.Message, CType(MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, MsgBoxStyle), "Fehler beim Speichern")
-            End Try
+                End Try
+            Else
+                'Debugging!
+                strAusgabe = strAusgabe & "RegEx(" & My.Settings.MailCleanRegex.ToString() & ") passt: " & strSubject & vbCrLf
+            End If
+
             l = l + 1
             Me.Invoke(New dele_update_prgBar(AddressOf update_prgBar), l)
         Next
 
-        MsgBox("Es wurden " & l - f & " Nachrichten gespeichert.", MsgBoxStyle.Information, "Vorgang abgeschlossen")
+        strAusgabe = strAusgabe & "Die Schleife wurde " & l & " Mal durchlaufen"
+
+        'Debugging!
+        If My.Settings.Debug Then
+            Dim sWriter As New IO.StreamWriter(My.Computer.FileSystem.SpecialDirectories.Desktop & "\MS_Outlook_SaveMails_Protokoll.txt")
+            sWriter.Write(strAusgabe)
+            sWriter.Close()
+        End If
+
+        MsgBox("Es wurden " & m & " Nachrichten gespeichert.", MsgBoxStyle.Information, "Vorgang abgeschlossen")
         Me.Invoke(New dele_update_prgBar(AddressOf update_prgBar), 0)
     End Sub
 

@@ -17,5 +17,8 @@
     <Setting Name="FileName" Type="System.String" Scope="User">
       <Value Profile="(Default)">&lt;ReceivedTime&gt;_&lt;SenderName&gt;_&lt;Subject&gt;</Value>
     </Setting>
+    <Setting Name="Debug" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

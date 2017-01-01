@@ -37,11 +37,14 @@ Partial Class frmSettings
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtFileName = New System.Windows.Forms.TextBox()
+        Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+        Me.chbProtokoll = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
+        Me.GroupBox6.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -101,7 +104,7 @@ Partial Class frmSettings
         '
         'cmdSave
         '
-        Me.cmdSave.Location = New System.Drawing.Point(655, 250)
+        Me.cmdSave.Location = New System.Drawing.Point(654, 278)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(75, 23)
         Me.cmdSave.TabIndex = 5
@@ -184,11 +187,32 @@ Partial Class frmSettings
         Me.txtFileName.Size = New System.Drawing.Size(322, 20)
         Me.txtFileName.TabIndex = 0
         '
+        'GroupBox6
+        '
+        Me.GroupBox6.Controls.Add(Me.chbProtokoll)
+        Me.GroupBox6.Location = New System.Drawing.Point(12, 250)
+        Me.GroupBox6.Name = "GroupBox6"
+        Me.GroupBox6.Size = New System.Drawing.Size(200, 51)
+        Me.GroupBox6.TabIndex = 8
+        Me.GroupBox6.TabStop = False
+        Me.GroupBox6.Text = "Debugging"
+        '
+        'chbProtokoll
+        '
+        Me.chbProtokoll.AutoSize = True
+        Me.chbProtokoll.Location = New System.Drawing.Point(7, 20)
+        Me.chbProtokoll.Name = "chbProtokoll"
+        Me.chbProtokoll.Size = New System.Drawing.Size(109, 17)
+        Me.chbProtokoll.TabIndex = 0
+        Me.chbProtokoll.Text = "Protokoll erstellen"
+        Me.chbProtokoll.UseVisualStyleBackColor = True
+        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(738, 283)
+        Me.ClientSize = New System.Drawing.Size(738, 309)
+        Me.Controls.Add(Me.GroupBox6)
         Me.Controls.Add(Me.GroupBox5)
         Me.Controls.Add(Me.GroupBox4)
         Me.Controls.Add(Me.cmdSave)
@@ -210,6 +234,8 @@ Partial Class frmSettings
         Me.GroupBox4.PerformLayout()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
+        Me.GroupBox6.ResumeLayout(False)
+        Me.GroupBox6.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -229,4 +255,6 @@ Partial Class frmSettings
     Friend WithEvents GroupBox5 As GroupBox
     Friend WithEvents Label1 As Label
     Friend WithEvents txtFileName As TextBox
+    Friend WithEvents GroupBox6 As GroupBox
+    Friend WithEvents chbProtokoll As CheckBox
 End Class
