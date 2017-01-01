@@ -44,7 +44,6 @@
             strPfad = My.Settings.SaveRootPath.ToString()
         End If
 
-        TimerCheckSelection.Stop()
         thrSaveMails.Start(strPfad)
     End Sub
 
