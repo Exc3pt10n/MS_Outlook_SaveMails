@@ -48,12 +48,13 @@
     End Sub
 
     Private Sub save_selected_mails_from_outlook(ByVal args As Object)
-        Dim appOut As New Microsoft.Office.Interop.Outlook.Application
+        Dim appOut As Microsoft.Office.Interop.Outlook.Application
         Dim outExplorer As Microsoft.Office.Interop.Outlook.Explorer
         Dim outMail As Microsoft.Office.Interop.Outlook.MailItem
         Dim strSubject As String, strFinalPath As String
         Dim l As Long = 0, m As Long = 0
 
+        appOut = CType(System.Runtime.InteropServices.Marshal.GetActiveObject("Outlook.Application"), Microsoft.Office.Interop.Outlook.Application)
         outExplorer = appOut.ActiveExplorer
 
         If outExplorer.Selection.Count = 0 Then
@@ -71,15 +72,16 @@
         End If
 
         Dim regex As New VBScript_RegExp_55.RegExp
-        regex.Pattern = My.Settings.MailCleanRegex
-
-        'Debugging!
+        Dim outMailCopy As Microsoft.Office.Interop.Outlook.MailItem
+        Dim outMailAttachment As Microsoft.Office.Interop.Outlook.Attachment
         Dim strAusgabe As String
+
+        regex.Pattern = My.Settings.MailCleanRegex
         strAusgabe = "Ausführung gestartet" & vbCrLf
 
         For Each outMail In outExplorer.Selection
             If Not Strings.Left(outMail.MessageClass.ToString(), 8) = "IPM.Note" Then
-                'Debugging!
+                'Protokoll
                 strAusgabe = strAusgabe & "Kein Mailitem: " & outMail.Subject.ToString() & " MessageClass: " & outMail.MessageClass.ToString() & vbCrLf
                 Continue For
             End If
@@ -94,12 +96,30 @@
                 strFinalPath = String.Format("{0}\{1}.MSG", CType(args, String), replace_placeholder_filename(outMail, Strings.Left(strSubject, My.Settings.MaxLenSubject)))
 
                 Try
-                    'Debugging!
+                    'Protokoll
                     strAusgabe = strAusgabe & strFinalPath & vbCrLf
                     m = m + 1
-                    outMail.SaveAs(strFinalPath, Microsoft.Office.Interop.Outlook.OlSaveAsType.olMSG)
+
+                    If My.Settings.SaveWithoutAttachments And outMail.Attachments.Count() > 0 Then
+                        'Protokoll
+                        strAusgabe = strAusgabe & vbTab & "Lösche Anhänge " & vbCrLf
+
+                        outMail.SaveAs(strFinalPath)
+                        outMailCopy = CType(appOut.Session.OpenSharedItem(strFinalPath), Microsoft.Office.Interop.Outlook.MailItem)
+
+                        For Each outMailAttachment In outMailCopy.Attachments
+                            'Protokoll
+                            strAusgabe = strAusgabe & vbTab & vbTab & "Lösche Anhang: " & outMailAttachment.FileName.ToString() & vbCrLf
+                            outMailAttachment.Delete()
+                        Next
+
+                        outMailCopy.Save()
+                        outMailCopy = Nothing
+                    Else
+                        outMail.SaveAs(strFinalPath, Microsoft.Office.Interop.Outlook.OlSaveAsType.olMSG)
+                    End If
                 Catch ex As Exception
-                    'Debugging!
+                    'Protokoll
                     strAusgabe = strAusgabe & "Fehler beim Speichern des MailItems. Fehlernachricht: " & ex.Message & vbCrLf
                     m = m - 1
                     MsgBox("Es ist leider ein Fehler beim Speichern aufgetreten." & vbCrLf & vbCrLf &
@@ -107,17 +127,18 @@
                        "Fehlertext: " & ex.Message, CType(MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, MsgBoxStyle), "Fehler beim Speichern")
                 End Try
             Else
-                'Debugging!
+                'Protokoll
                 strAusgabe = strAusgabe & "RegEx(" & My.Settings.MailCleanRegex.ToString() & ") passt: " & strSubject & vbCrLf
             End If
 
             l = l + 1
             Me.Invoke(New dele_update_prgBar(AddressOf update_prgBar), l)
+            outMailCopy = Nothing
         Next
 
         strAusgabe = strAusgabe & "Die Schleife wurde " & l & " Mal durchlaufen"
 
-        'Debugging!
+        'Protokoll
         If My.Settings.Debug Then
             Dim sWriter As New IO.StreamWriter(My.Computer.FileSystem.SpecialDirectories.Desktop & "\MS_Outlook_SaveMails_Protokoll.txt")
             sWriter.Write(strAusgabe)
@@ -147,15 +168,14 @@
 
     Private Function isOutlookRunning() As Boolean
         Dim p() As Process = Process.GetProcessesByName("Outlook")
-        If p.Count = 0 Then Return False Else Return True
+        Return CType(p.Count(), Boolean)
     End Function
 
     Private Function ReplaceCharsForFileName(ByVal strPath As String) As String
-        Const c As String = vbNullString
+        Const c As String = "_"
 
         strPath = Strings.Trim(strPath)
         strPath = Strings.Replace(strPath, """", c)
-        strPath = Strings.Replace(strPath, "'", c)
         strPath = Strings.Replace(strPath, "*", c)
         strPath = Strings.Replace(strPath, "/", c)
         strPath = Strings.Replace(strPath, "\", c)
@@ -184,9 +204,7 @@
     End Sub
 
     Private Sub TimerCheckSelection_Tick(sender As Object, e As EventArgs) Handles TimerCheckSelection.Tick
-        Dim p() As Process = Process.GetProcessesByName("Outlook")
-
-        If p.Count = 0 Then
+        If Not isOutlookRunning() Then
             Application.Exit()
         End If
 
@@ -199,9 +217,9 @@
             strAusgabe = outExplorer.Selection.Count.ToString()
 
             If outExplorer.Selection.Count = 1 Then
-                strAusgabe = strAusgabe & " Mail markiert"
+                strAusgabe = strAusgabe & " Objekt markiert"
             Else
-                strAusgabe = strAusgabe & " Mails markiert"
+                strAusgabe = strAusgabe & " Objekte markiert"
             End If
 
             lblAnzahlMails.Text = strAusgabe

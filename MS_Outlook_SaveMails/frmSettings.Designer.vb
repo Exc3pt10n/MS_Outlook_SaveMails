@@ -33,6 +33,7 @@ Partial Class frmSettings
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txtRegExPattern = New System.Windows.Forms.TextBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.chbSaveMailsWithoutAttachments = New System.Windows.Forms.CheckBox()
         Me.chbUseBrowser = New System.Windows.Forms.CheckBox()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -104,7 +105,7 @@ Partial Class frmSettings
         '
         'cmdSave
         '
-        Me.cmdSave.Location = New System.Drawing.Point(654, 278)
+        Me.cmdSave.Location = New System.Drawing.Point(655, 297)
         Me.cmdSave.Name = "cmdSave"
         Me.cmdSave.Size = New System.Drawing.Size(75, 23)
         Me.cmdSave.TabIndex = 5
@@ -140,13 +141,24 @@ Partial Class frmSettings
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.chbSaveMailsWithoutAttachments)
         Me.GroupBox4.Controls.Add(Me.chbUseBrowser)
         Me.GroupBox4.Location = New System.Drawing.Point(12, 194)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(375, 50)
+        Me.GroupBox4.Size = New System.Drawing.Size(375, 69)
         Me.GroupBox4.TabIndex = 6
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Optionen"
+        '
+        'chbSaveMailsWithoutAttachments
+        '
+        Me.chbSaveMailsWithoutAttachments.AutoSize = True
+        Me.chbSaveMailsWithoutAttachments.Location = New System.Drawing.Point(6, 43)
+        Me.chbSaveMailsWithoutAttachments.Name = "chbSaveMailsWithoutAttachments"
+        Me.chbSaveMailsWithoutAttachments.Size = New System.Drawing.Size(172, 17)
+        Me.chbSaveMailsWithoutAttachments.TabIndex = 1
+        Me.chbSaveMailsWithoutAttachments.Text = "Mails ohne Anhänge speichern"
+        Me.chbSaveMailsWithoutAttachments.UseVisualStyleBackColor = True
         '
         'chbUseBrowser
         '
@@ -190,12 +202,12 @@ Partial Class frmSettings
         'GroupBox6
         '
         Me.GroupBox6.Controls.Add(Me.chbProtokoll)
-        Me.GroupBox6.Location = New System.Drawing.Point(12, 250)
+        Me.GroupBox6.Location = New System.Drawing.Point(12, 269)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Size = New System.Drawing.Size(200, 51)
         Me.GroupBox6.TabIndex = 8
         Me.GroupBox6.TabStop = False
-        Me.GroupBox6.Text = "Debugging"
+        Me.GroupBox6.Text = "Protokoll"
         '
         'chbProtokoll
         '
@@ -211,7 +223,7 @@ Partial Class frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(738, 309)
+        Me.ClientSize = New System.Drawing.Size(738, 327)
         Me.Controls.Add(Me.GroupBox6)
         Me.Controls.Add(Me.GroupBox5)
         Me.Controls.Add(Me.GroupBox4)
@@ -257,4 +269,5 @@ Partial Class frmSettings
     Friend WithEvents txtFileName As TextBox
     Friend WithEvents GroupBox6 As GroupBox
     Friend WithEvents chbProtokoll As CheckBox
+    Friend WithEvents chbSaveMailsWithoutAttachments As CheckBox
 End Class

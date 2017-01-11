@@ -6,6 +6,7 @@
             txtLenSubject.Text = .MaxLenSubject.ToString()
             txtRegExPattern.Text = .MailCleanRegex.ToString()
             chbUseBrowser.Checked = .UseBrowser
+            chbSaveMailsWithoutAttachments.Checked = .SaveWithoutAttachments
             chbProtokoll.Checked = .Debug
         End With
     End Sub
@@ -32,6 +33,7 @@
                 .MailCleanRegex = txtRegExPattern.Text.ToString()
                 .FileName = txtFileName.Text.ToString()
                 .UseBrowser = chbUseBrowser.Checked
+                .SaveWithoutAttachments = chbSaveMailsWithoutAttachments.Checked
                 .Debug = chbProtokoll.Checked
             End With
         Catch ex As Exception
@@ -58,5 +60,11 @@
         End Try
 
         MsgBox("Die Einstellungen wurden erfolgreich gespeichert", MsgBoxStyle.Information)
+    End Sub
+
+    Private Sub chbSaveMailsWithoutAttachments_Click(sender As Object, e As EventArgs) Handles chbSaveMailsWithoutAttachments.Click
+        If chbSaveMailsWithoutAttachments.Checked Then
+            MsgBox("Vorsicht! Um Mails mit Anhängen ohne diese zu speichern, wird von jeder Mail eine Kopie erstellt und diese nach dem Speichern in den Papierkorb verschoben.", MsgBoxStyle.Information)
+        End If
     End Sub
 End Class

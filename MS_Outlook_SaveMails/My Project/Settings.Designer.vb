@@ -125,6 +125,18 @@ Namespace My
                 Me("Debug") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property SaveWithoutAttachments() As Boolean
+            Get
+                Return CType(Me("SaveWithoutAttachments"),Boolean)
+            End Get
+            Set
+                Me("SaveWithoutAttachments") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
